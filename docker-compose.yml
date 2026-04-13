@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  cost-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cost-agent-web
+    restart: unless-stopped
+    ports:
+      - "3000:80"    # 将容器 80 端口映射到宿主机 3000 端口，按需修改
+    environment:
+      - TZ=Asia/Shanghai
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # 可选：如需 HTTPS，取消以下 Traefik 注释
+  # traefik:
+  #   image: traefik:v3
+  #   command:
+  #     - "--providers.docker=true"
+  #     - "--entrypoints.web.address=:80"
+  #     - "--entrypoints.websecure.address=:443"
+  #     - "--certificatesresolvers.letsencrypt.acme.email=your@email.com"
+  #     - "--certificatesresolvers.letsencrypt.acme.storage=/acme.json"
+  #     - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./acme.json:/acme.json

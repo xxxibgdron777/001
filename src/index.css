@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input[type='range'] {
+    @apply accent-sky-500;
+  }
+}
+
+@layer components {
+  /* 卡片基础样式 */
+  .card {
+    @apply bg-white rounded-xl border border-gray-100 shadow-card;
+  }
+  
+  /* 输入框统一样式 */
+  .input-base {
+    @apply w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
+           focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
+           placeholder-gray-400 transition-all duration-150;
+  }
+
+  /* 按钮样式 */
+  .btn-primary {
+    @apply px-4 py-2 bg-sky-500 text-white text-sm font-medium rounded-lg
+           hover:bg-sky-600 active:bg-sky-700 transition-colors duration-150
+           focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-200
+           hover:bg-gray-50 active:bg-gray-100 transition-colors duration-150
+           focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2;
+  }
+
+  .btn-danger {
+    @apply px-3 py-1.5 text-xs text-red-500 rounded-lg hover:bg-red-50 transition-colors duration-150;
+  }
+
+  /* 指标卡片 */
+  .metric-card {
+    @apply card p-4 flex flex-col gap-1;
+  }
+
+  .metric-value {
+    @apply text-2xl font-bold tracking-tight;
+  }
+
+  .metric-label {
+    @apply text-xs text-gray-500 font-medium uppercase tracking-wide;
+  }
+
+  /* 表格样式 */
+  .table-base {
+    @apply w-full text-sm;
+  }
+
+  .table-base thead {
+    @apply bg-gray-50;
+  }
+
+  .table-base th {
+    @apply px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide;
+  }
+
+  .table-base td {
+    @apply px-3 py-2 text-gray-700;
+  }
+
+  .table-base tbody tr {
+    @apply border-t border-gray-50 hover:bg-gray-50 transition-colors duration-100;
+  }
+
+  /* 标签 */
+  .badge-fixed {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-700;
+  }
+
+  .badge-variable {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700;
+  }
+
+  /* 警告提示 */
+  .alert-warning {
+    @apply flex items-start gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-sm;
+  }
+
+  .alert-success {
+    @apply flex items-start gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm;
+  }
+
+  .alert-info {
+    @apply flex items-start gap-2 px-4 py-3 bg-sky-50 border border-sky-200 rounded-xl text-sky-800 text-sm;
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
