@@ -5,12 +5,19 @@
 @layer base {
   * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
   }
 
   body {
     @apply bg-gray-50 text-gray-900 font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
   }
 
   /* 数字输入框去掉默认箭头 */
@@ -19,138 +26,250 @@
     -webkit-appearance: none;
     margin: 0;
   }
-
   input[type='number'] {
     -moz-appearance: textfield;
   }
 
-  /* 滑块样式 */
+  /* 滑块样式 — 移动端优化 */
   input[type='range'] {
-    @apply accent-sky-500;
     -webkit-appearance: none;
+    appearance: none;
+    @apply accent-sky-500;
   }
-
   input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    @apply w-4 h-4 bg-white border-2 border-sky-500 rounded-full shadow cursor-pointer;
+    @apply w-6 h-6 bg-white border-[3px] border-sky-500 rounded-full shadow cursor-pointer;
+  }
+  input[type='range']::-moz-range-thumb {
+    @apply w-6 h-6 bg-white border-[3px] border-sky-500 rounded-full shadow cursor-pointer;
+  }
+  input[type='range']::-webkit-slider-runnable-track {
+    @apply h-1.5 bg-gray-100 rounded-full;
   }
 
-  input[type='range']::-moz-range-thumb {
-    @apply w-4 h-4 bg-white border-2 border-sky-500 rounded-full shadow cursor-pointer;
+  /* 选中文字 */
+  ::selection {
+    @apply bg-sky-100 text-sky-900;
   }
 }
 
 @layer components {
-  /* 卡片基础样式 */
-  .card {
-    @apply bg-white rounded-xl border border-gray-100 shadow-sm;
+  /* ---- 布局 ---- */
+  /* 页面容器：移动端全宽，PC 端居中最大 480px */
+  .page-container {
+    @apply w-full max-w-[480px] mx-auto;
   }
 
-  /* 输入框统一样式 */
+  /* 卡片：圆角大，卡片间距 12px */
+  .card {
+    @apply bg-white rounded-2xl border border-gray-100 shadow-sm;
+  }
+
+  /* 卡片内边距 */
+  .card-pad {
+    @apply p-4;
+  }
+
+  /* ---- 输入 ---- */
   .input-base {
-    @apply w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white
+    @apply w-full px-3 py-3 text-base border border-gray-200 rounded-xl bg-white
            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
            placeholder-gray-400 transition-all duration-150;
+    /* 移动端：增大触控区域 */
+    min-height: 2.75rem;
   }
 
-  /* 主要按钮 */
+  /* 按钮 — 最小触控 44px */
   .btn-primary {
-    @apply px-4 py-2 bg-sky-500 text-white text-sm font-medium rounded-lg
-           hover:bg-sky-600 active:bg-sky-700 transition-colors duration-150
+    @apply flex items-center justify-center gap-2 px-5 py-3 min-h-[2.75rem]
+           bg-sky-500 text-white text-base font-semibold rounded-xl
+           active:bg-sky-600 active:scale-[0.97] transition-all duration-150
            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2
-           disabled:opacity-50 disabled:cursor-not-allowed;
+           disabled:opacity-50 disabled:cursor-not-allowed select-none;
   }
 
-  /* 次要按钮 */
   .btn-secondary {
-    @apply px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-200
-           hover:bg-gray-50 active:bg-gray-100 transition-colors duration-150
-           focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2;
+    @apply flex items-center justify-center gap-2 px-4 py-3 min-h-[2.75rem]
+           bg-white text-gray-700 text-base font-medium rounded-xl border border-gray-200
+           active:bg-gray-100 active:scale-[0.97] transition-all duration-150
+           focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2
+           select-none;
   }
 
-  /* 危险按钮 */
   .btn-danger {
-    @apply px-3 py-1.5 text-xs text-red-500 rounded-lg hover:bg-red-50 transition-colors duration-150;
+    @apply flex items-center justify-center gap-1.5 px-4 py-3 min-h-[2.75rem]
+           text-red-500 text-sm font-medium rounded-xl
+           active:bg-red-50 transition-colors duration-150 select-none;
   }
 
-  /* 指标卡片 */
-  .metric-card {
-    @apply card p-4 flex flex-col gap-1;
+  /* 类型选择按钮 */
+  .type-btn {
+    @apply flex-1 flex items-center justify-center gap-2 px-3 py-3 min-h-[2.75rem]
+           text-sm font-medium rounded-xl border-2 transition-all duration-150 select-none;
+  }
+
+  /* ---- 指标卡片 ---- */
+  .metric-big {
+    @apply card-pad text-center;
   }
 
   .metric-value {
-    @apply text-2xl font-bold tracking-tight;
+    @apply text-4xl font-bold tracking-tight leading-none;
   }
 
   .metric-label {
-    @apply text-xs text-gray-500 font-medium uppercase tracking-wide;
+    @apply text-sm text-gray-500 font-medium mt-1;
   }
 
-  /* 表格样式 */
-  .table-base {
-    @apply w-full text-sm;
-  }
-
-  .table-base thead {
-    @apply bg-gray-50;
-  }
-
-  .table-base th {
-    @apply px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide;
-  }
-
-  .table-base td {
-    @apply px-3 py-2 text-gray-700;
-  }
-
-  .table-base tbody tr {
-    @apply border-t border-gray-50 hover:bg-gray-50 transition-colors duration-100;
-  }
-
-  /* 固定成本标签 */
-  .badge-fixed {
-    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-700;
-  }
-
-  /* 变动成本标签 */
-  .badge-variable {
-    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700;
-  }
-
-  /* 警告提示 */
+  /* ---- 提示 ---- */
   .alert-warning {
-    @apply flex items-start gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-sm;
+    @apply flex items-start gap-3 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-sm;
   }
 
-  /* 成功提示 */
   .alert-success {
-    @apply flex items-start gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm;
+    @apply flex items-start gap-3 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm;
   }
 
-  /* 信息提示 */
   .alert-info {
-    @apply flex items-start gap-2 px-4 py-3 bg-sky-50 border border-sky-200 rounded-xl text-sky-800 text-sm;
+    @apply flex items-start gap-3 px-4 py-3 bg-sky-50 border border-sky-200 rounded-xl text-sky-800 text-sm;
+  }
+
+  .alert-error {
+    @apply flex items-start gap-3 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm;
+  }
+
+  /* ---- 步骤卡片头部 ---- */
+  .step-header {
+    @apply flex items-center gap-3 mb-4;
+  }
+
+  .step-num {
+    @apply w-8 h-8 bg-sky-500 text-white text-base font-bold rounded-xl
+           flex items-center justify-center flex-shrink-0 select-none;
+  }
+
+  .step-title {
+    @apply text-lg font-semibold text-gray-900;
+  }
+
+  .step-desc {
+    @apply text-sm text-gray-400 mt-0.5;
+  }
+
+  /* ---- 分隔线 ---- */
+  .section-divider {
+    @apply my-4 border-t border-gray-100;
+  }
+
+  /* ---- 成本项行 ---- */
+  .cost-row {
+    @apply flex items-center gap-2 px-3 py-3 rounded-xl border transition-all duration-150 active:bg-gray-50;
+    min-height: 3rem;
+  }
+
+  .cost-row-fixed {
+    @apply border-violet-100 bg-violet-50/40;
+  }
+
+  .cost-row-variable {
+    @apply border-amber-100 bg-amber-50/40;
+  }
+
+  /* ---- 标签 ---- */
+  .badge-fixed {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-violet-100 text-violet-700 select-none;
+  }
+
+  .badge-variable {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 select-none;
+  }
+
+  /* ---- Tooltip ---- */
+  .has-tooltip {
+    @apply relative cursor-help;
+  }
+
+  .has-tooltip .tooltip {
+    @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5
+           bg-gray-800 text-white text-xs rounded-lg whitespace-nowrap
+           opacity-0 group-hover:opacity-100 group-active:opacity-100
+           transition-opacity duration-200 pointer-events-none z-20;
+  }
+
+  .has-tooltip .tooltip::after {
+    content: '';
+    @apply absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800;
+  }
+
+  /* ---- 进度指示器 ---- */
+  .step-indicator {
+    @apply flex items-center;
+    flex: 1;
+  }
+
+  .step-indicator-item {
+    @apply flex items-center gap-2;
+  }
+
+  .step-indicator-dot {
+    @apply w-7 h-7 rounded-full text-white text-xs font-bold flex items-center justify-center select-none;
+  }
+
+  .step-indicator-label {
+    @apply text-xs font-medium text-gray-500;
+  }
+
+  /* ---- 预设模板卡片 ---- */
+  .template-card {
+    @apply flex items-center gap-3 px-4 py-3 min-h-[3.5rem]
+           bg-white border border-gray-200 rounded-xl
+           active:scale-[0.98] active:bg-sky-50 active:border-sky-300
+           transition-all duration-150 select-none cursor-pointer;
+  }
+
+  /* ---- 图表容器 ---- */
+  .chart-container {
+    @apply w-full rounded-xl overflow-hidden;
+  }
+
+  /* ---- PDF 导出按钮（固定） ---- */
+  .fab-export {
+    @apply fixed bottom-6 right-4 md:right-auto md:relative
+           flex items-center justify-center gap-2 px-5 py-3 min-h-[3rem]
+           bg-sky-500 text-white text-sm font-semibold rounded-2xl shadow-lg
+           active:bg-sky-600 active:scale-95 transition-all duration-150
+           select-none z-10;
   }
 }
 
-/* 自定义滚动条 */
+/* ---- 自定义滚动条 ---- */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #e2e8f0;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
 
-/* 平滑滚动 */
-html {
-  scroll-behavior: smooth;
+/* ---- 安全区域适配（iPhone 全面屏） ---- */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* ---- 响应式：PC 端居中最大宽度 ---- */
+@media (min-width: 640px) {
+  .page-container {
+    @apply max-w-[480px];
+    @apply mx-auto;
+  }
 }

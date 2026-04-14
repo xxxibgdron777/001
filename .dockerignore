@@ -1,6 +1,42 @@
-.dockerignore
+# ========================================
+# Docker 构建忽略文件
+# ========================================
+
+# 依赖
 node_modules
-dist
+npm-debug.log*
+
+# Git
 .git
 .gitignore
+
+# 开发文件
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# 测试
+coverage
+*.test.js
+*.spec.js
+
+# 构建产物（会从 builder 阶段复制）
+dist
+build
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# 其他
+README.md
 *.md
+*.txt

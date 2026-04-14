@@ -27,11 +27,11 @@ interface Props {
 /** 成本结构饼图颜色 */
 const PIE_COLORS = ['#8b5cf6', '#f59e0b']
 
-/** 通用 Tooltip 格式化 */
+/** 通用 Tooltip 格式化（整数） */
 const numberFormatter = (val: number) =>
   val >= 10000
-    ? `${(val / 10000).toFixed(1)}万`
-    : formatNumber(val, 0)
+    ? `${Math.round(val / 10000)}万`
+    : formatNumber(val)
 
 /**
  * 图表区
